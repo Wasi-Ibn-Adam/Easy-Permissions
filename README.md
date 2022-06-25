@@ -81,12 +81,14 @@ all callbacks Include:
 *  rationalPopUpCancelled
 *  onError
 
+
 Gradle
 ------
+```
 dependencies {
-    ```
+    ...
     implementation 'com.github.Wasi-Ibn-Adam:Easy-Permissions:1.0.1'
-    ```
 }
+```
 
 
