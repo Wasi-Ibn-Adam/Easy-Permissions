@@ -1,0 +1,3 @@
+rootProject.name = "PermissionTest"
+include ':app'
+include ':PermissionCenter'
