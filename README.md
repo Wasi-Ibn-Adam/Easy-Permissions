@@ -3,6 +3,15 @@ Easy-Permissions
 
 A fast easy and perfect way to handle permissions. 
 
+Gradle
+------
+```
+dependencies {
+    ...
+    implementation 'com.github.Wasi-Ibn-Adam:Easy-Permissions:1.0.1'
+}
+```
+
 To handle permissions their are two ways:
 
 *   WPremission
@@ -80,15 +89,3 @@ all callbacks Include:
 *  unableToAskPermission                
 *  rationalPopUpCancelled
 *  onError
-
-
-Gradle
-------
-```
-dependencies {
-    ...
-    implementation 'com.github.Wasi-Ibn-Adam:Easy-Permissions:1.0.1'
-}
-```
-
-
