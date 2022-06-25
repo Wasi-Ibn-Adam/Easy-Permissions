@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.wasitech.permissioncenter.WCompatActivity;
-import com.wasitech.permissioncenter.classes.Utils;
+import com.wasitech.wpermissions.WCompatActivity;
+import com.wasitech.wpermissions.classes.Utils;
 
 import java.util.Arrays;
 

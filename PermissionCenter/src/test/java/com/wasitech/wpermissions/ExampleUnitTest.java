@@ -1,4 +1,4 @@
-package com.wasitech.permissioncenter;
+package com.wasitech.wpermissions;
 
 import org.junit.Test;
 

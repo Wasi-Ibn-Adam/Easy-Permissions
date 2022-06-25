@@ -1,4 +1,4 @@
-package com.wasitech.permissioncenter.inter;
+package com.wasitech.wpermissions.inter;
 
 import androidx.annotation.NonNull;
 

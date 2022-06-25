@@ -1,4 +1,4 @@
-package com.wasitech.permissioncenter.classes;
+package com.wasitech.wpermissions.classes;
 
 import android.Manifest;
 import android.app.Activity;
@@ -9,7 +9,7 @@ import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 
-import com.wasitech.permissioncenter.inter.RequestListener;
+import com.wasitech.wpermissions.inter.RequestListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.wasitech.permissioncenter.classes;
+package com.wasitech.wpermissions.classes;
 
 import android.app.Activity;
 import android.content.Context;

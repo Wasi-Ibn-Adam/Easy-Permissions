@@ -1,11 +1,11 @@
-package com.wasitech.permissioncenter.classes;
+package com.wasitech.wpermissions.classes;
 
 import android.app.Activity;
 
 import androidx.annotation.NonNull;
 
-import com.wasitech.permissioncenter.inter.RequestListener;
-import com.wasitech.permissioncenter.inter.ResultListener;
+import com.wasitech.wpermissions.inter.RequestListener;
+import com.wasitech.wpermissions.inter.ResultListener;
 
 public class WPermission {
     private WRequest sr;

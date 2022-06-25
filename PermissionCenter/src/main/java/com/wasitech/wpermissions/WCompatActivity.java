@@ -1,15 +1,15 @@
-package com.wasitech.permissioncenter;
+package com.wasitech.wpermissions;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.wasitech.permissioncenter.classes.Utils;
-import com.wasitech.permissioncenter.classes.WPermission;
-import com.wasitech.permissioncenter.classes.WRequest;
-import com.wasitech.permissioncenter.inter.RequestListener;
-import com.wasitech.permissioncenter.inter.ResultListener;
+import com.wasitech.wpermissions.classes.Utils;
+import com.wasitech.wpermissions.classes.WPermission;
+import com.wasitech.wpermissions.classes.WRequest;
+import com.wasitech.wpermissions.inter.RequestListener;
+import com.wasitech.wpermissions.inter.ResultListener;
 
 import java.util.Arrays;
 

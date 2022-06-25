@@ -1,4 +1,4 @@
-package com.wasitech.permissioncenter;
+package com.wasitech.wpermissions;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.wasitech.permissioncenter.test", appContext.getPackageName());
+        assertEquals("com.wasitech.wpermissions.test", appContext.getPackageName());
     }
 }
