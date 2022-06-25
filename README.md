@@ -69,17 +69,17 @@ There are a number of callbacks, which can be used for different purposes
 
 all callbacks Include:
 
-*  firstTimeRequested(@NonNull String[] pers, int rCode)
-*  curGranted(@NonNull String[] pers, int rCode)
-*  prevGranted(@NonNull String[] pers, int rCode)
-*  onGrantedAll(@NonNull String[] pers, int rCode)
-*  curDenied(@NonNull String[] pers, int rCode)
-*  prevDenied(@NonNull String[] pers, int rCode)
-*  onDeniedAll(@NonNull String[] pers, int rCode)
-*  onComplete(int rCode)
-*  unableToAskPermission(@NonNull String[] pers, int rCode)  // NEVER ASK AGAIN
-*  rationalPopUpCancelled(int rCode)
-*  onError(String message)
+*  firstTimeRequested 
+*  curGranted 
+*  prevGranted
+*  onGrantedAll 
+*  curDenied 
+*  prevDenied 
+*  onDeniedAll 
+*  onComplete
+*  unableToAskPermission                
+*  rationalPopUpCancelled
+*  onError
 
 Gradle
 ------
