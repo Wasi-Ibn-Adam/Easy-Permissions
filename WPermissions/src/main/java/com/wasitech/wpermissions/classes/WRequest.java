@@ -3,21 +3,17 @@ package com.wasitech.wpermissions.classes;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
 
 import com.wasitech.wpermissions.inter.RequestListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class WRequest extends Utils implements RequestListener {
     private final Single s;
@@ -27,6 +23,73 @@ public abstract class WRequest extends Utils implements RequestListener {
         super(ac);
         s = new Single();
         m = new Multi();
+    }
+
+    /**
+     * @author Wasi-Ibn-Adam
+     */
+    public static class Check {
+        public static boolean custom(Context context, String per) {
+            return context.checkSelfPermission(per) == PackageManager.PERMISSION_GRANTED;
+        }
+
+        public static boolean custom(Context context, String[] pers) {
+            boolean b;
+            for (String per : pers) {
+                b = custom(context, per);
+                if (!b) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static boolean location(Context context) {
+            return custom(context, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION});
+        }
+
+        public static boolean location_Coarse(Context context) {
+            return custom(context, Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+
+        public static boolean location_fine(Context context) {
+            return custom(context, Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+
+        public static boolean storage(Context context) {
+            return custom(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+        public static boolean storage_read(Context context) {
+            return custom(context, Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+
+        public static boolean contact(Context context) {
+            return custom(context, Manifest.permission.WRITE_CONTACTS);
+        }
+
+        public static boolean contact_read(Context context) {
+            return custom(context, Manifest.permission.READ_CONTACTS);
+        }
+
+        public static boolean camera(Context context) {
+            return custom(context, Manifest.permission.CAMERA);
+        }
+
+        public static boolean microphone(Context context) {
+            return custom(context, Manifest.permission.RECORD_AUDIO);
+        }
+
+        public static boolean phone(Context context) {
+            return custom(context, Manifest.permission.CALL_PHONE);
+        }
+
+        public static boolean send_sms(Context context) {
+            return custom(context, Manifest.permission.SEND_SMS);
+        }
+
+
+
     }
 
     /**
@@ -58,7 +121,7 @@ public abstract class WRequest extends Utils implements RequestListener {
 
     protected void showRational(@NonNull String[] per, int rCode) {
         AlertDialog dialog = new AlertDialog.Builder(ac).create();
-        dialog.setMessage("Grant following permission: " + setRationalMessage(per,rCode));
+        dialog.setMessage("Grant following permission: " + setRationalMessage(per, rCode));
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Ok", (v, a) -> ac.requestPermissions(per, rCode));
         dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", (v, a) -> {
             dialog.dismiss();
@@ -97,6 +160,7 @@ public abstract class WRequest extends Utils implements RequestListener {
          * <h3>Convert permission to its name </h3>
          * <p>
          * for example
+         *
          * @param per "Manifest.permission.ACCESS_COARSE_LOCATION"
          * @return "Location"
          */
@@ -147,17 +211,18 @@ public abstract class WRequest extends Utils implements RequestListener {
          * <h3>Convert list of permission to list of their names </h3>
          * <p>
          * for example
+         *
          * @param pers [
          *             "Manifest.permission.ACCESS_COARSE_LOCATION" ,
          *             "Manifest.permission.READ_CONTACTS" ]
          * @return ["Location" , "Contact"]
          */
         public static String[] getPermissionsName(String[] pers) {
-            HashMap<String,Integer> list = new HashMap<>();
+            HashMap<String, Integer> list = new HashMap<>();
             for (String per : pers) {
                 String d = getPermissionName(per);
                 if (!d.isEmpty())
-                    list.put(d,1);
+                    list.put(d, 1);
             }
             return ((String[]) list.keySet().toArray());
         }
@@ -166,13 +231,14 @@ public abstract class WRequest extends Utils implements RequestListener {
          * <h3>Convert list of permission to String of their names </h3>
          * <p>
          * for example
+         *
          * @param pers [
          *             "Manifest.permission.ACCESS_COARSE_LOCATION" ,
          *             "Manifest.permission.READ_CONTACTS" ]
          * @return "Location and Contact"
          */
         public static String permissionsToString(String[] pers) {
-            String[]list=getPermissionsName(pers);
+            String[] list = getPermissionsName(pers);
             switch (list.length) {
                 case 0:
                     return "";
