@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 
@@ -13,6 +14,10 @@ import com.wasitech.wpermissions.inter.RequestListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class WRequest extends Utils implements RequestListener {
     private final Single s;
@@ -40,7 +45,6 @@ public abstract class WRequest extends Utils implements RequestListener {
         return m;
     }
 
-
     /**
      * saves the curr value<br>
      * returns true if permission should be checked else false
@@ -54,7 +58,7 @@ public abstract class WRequest extends Utils implements RequestListener {
 
     protected void showRational(@NonNull String[] per, int rCode) {
         AlertDialog dialog = new AlertDialog.Builder(ac).create();
-        dialog.setMessage("Grant following permission: " + Arrays.toString(per));
+        dialog.setMessage("Grant following permission: " + setRationalMessage(per,rCode));
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Ok", (v, a) -> ac.requestPermissions(per, rCode));
         dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", (v, a) -> {
             dialog.dismiss();
@@ -87,6 +91,109 @@ public abstract class WRequest extends Utils implements RequestListener {
         return false;
     }
 
+    public static class Extras {
+
+        /**
+         * <h3>Convert permission to its name </h3>
+         * <p>
+         * for example
+         * @param per "Manifest.permission.ACCESS_COARSE_LOCATION"
+         * @return "Location"
+         */
+        public static String getPermissionName(String per) {
+            switch (per) {
+                case Manifest.permission.READ_EXTERNAL_STORAGE:
+                case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                case Manifest.permission.MANAGE_EXTERNAL_STORAGE: {
+                    return "Storage";
+                }
+                case Manifest.permission.READ_CONTACTS:
+                case Manifest.permission.WRITE_CONTACTS:
+                case Manifest.permission.GET_ACCOUNTS: {
+                    return "Contact";
+                }
+                case Manifest.permission.RECORD_AUDIO: {
+                    return "Microphone";
+                }
+                case Manifest.permission.CAMERA: {
+                    return "Camera";
+                }
+                case Manifest.permission.ACCESS_COARSE_LOCATION:
+                case Manifest.permission.ACCESS_FINE_LOCATION: {
+                    return "Location";
+                }
+                case Manifest.permission.READ_SMS:
+                case Manifest.permission.BROADCAST_SMS:
+                case Manifest.permission.RECEIVE_SMS:
+                case Manifest.permission.SEND_SMS: {
+                    return "Sms";
+                }
+                case Manifest.permission.CALL_PHONE:
+                case Manifest.permission.ANSWER_PHONE_CALLS:
+                case Manifest.permission.READ_PHONE_NUMBERS:
+                case Manifest.permission.READ_PRECISE_PHONE_STATE:
+                case Manifest.permission.MODIFY_PHONE_STATE: {
+                    return "Phone";
+                }
+                case Manifest.permission.BIND_VPN_SERVICE: {
+                    return "VPN";
+                }
+                default:
+                    return "";
+            }
+        }
+
+        /**
+         * <h3>Convert list of permission to list of their names </h3>
+         * <p>
+         * for example
+         * @param pers [
+         *             "Manifest.permission.ACCESS_COARSE_LOCATION" ,
+         *             "Manifest.permission.READ_CONTACTS" ]
+         * @return ["Location" , "Contact"]
+         */
+        public static String[] getPermissionsName(String[] pers) {
+            HashMap<String,Integer> list = new HashMap<>();
+            for (String per : pers) {
+                String d = getPermissionName(per);
+                if (!d.isEmpty())
+                    list.put(d,1);
+            }
+            return ((String[]) list.keySet().toArray());
+        }
+
+        /**
+         * <h3>Convert list of permission to String of their names </h3>
+         * <p>
+         * for example
+         * @param pers [
+         *             "Manifest.permission.ACCESS_COARSE_LOCATION" ,
+         *             "Manifest.permission.READ_CONTACTS" ]
+         * @return "Location and Contact"
+         */
+        public static String permissionsToString(String[] pers) {
+            String[]list=getPermissionsName(pers);
+            switch (list.length) {
+                case 0:
+                    return "";
+                case 1:
+                    return list[0];
+                case 2:
+                    return list[0] + ", " + list[1];
+                default: {
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < list.length; i++) {
+                        if (i == list.length - 1)
+                            builder.append("& ").append(builder.append(list[i]));
+                        else
+                            builder.append(list[i]).append(", ");
+                    }
+                    return builder.toString();
+                }
+            }
+        }
+
+    }
 
     public class Single {
         /**
@@ -216,7 +323,6 @@ public abstract class WRequest extends Utils implements RequestListener {
 
     }
 
-
     public class Multi {
         /**
          * <h3> Add Permissions in Manifest which you are requesting</h3>
@@ -257,8 +363,7 @@ public abstract class WRequest extends Utils implements RequestListener {
                 } else {
                     ac.requestPermissions(pers, rCode);
                 }
-            }
-            else {
+            } else {
                 unableToAskPermission(arr.toArray(new String[]{""}), rCode);
             }
         }
@@ -286,6 +391,41 @@ public abstract class WRequest extends Utils implements RequestListener {
          */
         public void location(int code) {
             permissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, code);
+        }
+
+        /**
+         * <h3>Add following permissions in Manifest</h3>
+         * <i>uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" </i>
+         * <i>uses-permission android:name="android.permission.RECORD_AUDIO" </i>
+         */
+        public void recorderApp(int code) {
+            permissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE}, code);
+        }
+
+        /**
+         * <h3>Add following permission in Manifest</h3>
+         * <i>uses-permission android:name="android.permission.RECORD_AUDIO" </i>
+         */
+        public void audioDetector(int code) {
+            permissions(new String[]{Manifest.permission.RECORD_AUDIO}, code);
+        }
+
+
+        /**
+         * <h3>Add following permission in Manifest</h3>
+         * <i>uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" </i>
+         */
+        public void playerApp(int code) {
+            permissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, code);
+        }
+
+
+        /**
+         * <h3>Add following permission in Manifest</h3>
+         * <i>uses-permission android:name="android.permission.WRITE_CONTACTS" </i>
+         */
+        public void contactApp(int code) {
+            permissions(new String[]{Manifest.permission.WRITE_CONTACTS}, code);
         }
 
 

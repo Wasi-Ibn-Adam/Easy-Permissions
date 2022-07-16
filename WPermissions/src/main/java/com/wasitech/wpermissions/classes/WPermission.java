@@ -23,8 +23,8 @@ public class WPermission {
         sr = new WRequest(ac) {
             @NonNull
             @Override
-            public String setRationalMessage(int rCode) {
-                return request.setRationalMessage(rCode);
+            public String setRationalMessage(@NonNull String[] pers,int rCode) {
+                return request.setRationalMessage(pers,rCode);
             }
 
             @Override

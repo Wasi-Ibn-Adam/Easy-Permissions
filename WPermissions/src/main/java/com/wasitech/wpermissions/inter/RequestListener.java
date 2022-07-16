@@ -6,10 +6,11 @@ public interface RequestListener {
 
     /**
      * @param rCode the request code
+     * @param pers  List of Permissions
      * @implNote set message to show up when it is required to rationally request to user <br>
      */
     @NonNull
-    String setRationalMessage(int rCode);
+    String setRationalMessage(@NonNull String[] pers,int rCode);
 
     /**
      * @param rCode request code

@@ -84,7 +84,7 @@ public class WCompatActivity extends AppCompatActivity implements ResultListener
 
     @NonNull
     @Override
-    public String setRationalMessage(int rCode) {
+    public String setRationalMessage(@NonNull String[] pers,int rCode) {
         return "";
     }
 
